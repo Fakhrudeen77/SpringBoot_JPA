@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.example.jpa.dto.EmployeeDto;
 import com.example.jpa.entity.Employee;
-import com.example.jpa.exception.CustomerNotFoundException;
+import com.example.jpa.mapper.OrikaBeanMapper;
 import com.example.jpa.repository.EmployeeRepository;
 
 @Service
@@ -15,11 +17,21 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	
+	@Autowired
+	private OrikaBeanMapper mapper;
+	
+	
 	@Override
-	public Long saveEmployee(Employee employee) {
-		// TODO Auto-generated method stub
-		Employee empl= employeeRepository.saveAndFlush(employee);
-		return empl.getEmployeeId();
+	@Transactional
+	public EmployeeDto saveEmployee(EmployeeDto employeeDto) {
+	
+		Employee employee= mapper.map(employeeDto, Employee.class);
+		employee= employeeRepository.saveAndFlush(employee);
+		
+		
+		EmployeeDto responseDto  = mapper.map(employee, EmployeeDto.class);
+		return responseDto;		
+		
 	}
 
 	@Override
@@ -34,17 +46,6 @@ public class EmployeeServiceImpl implements EmployeeService{
 		return null;
 	}
 
-	@Override
-	public void delete(Long employeeId) throws CustomerNotFoundException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	 public int updateProfileImage(String profileImage, Long employeeId) {  
-		   
-		 return employeeRepository.updateProfileImage(profileImage, employeeId);
-	 }
-	
 
 	
 	

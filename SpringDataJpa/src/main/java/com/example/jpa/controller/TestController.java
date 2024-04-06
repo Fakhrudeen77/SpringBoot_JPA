@@ -5,13 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.example.jpa.dto.BookDto;
-import com.example.jpa.entity.Customer;
 
 @RestController
 public class TestController {
@@ -64,13 +58,7 @@ public class TestController {
 	   
    }
 	
-  @PostMapping("/save")
-   public ResponseEntity<String> saveEmployee(@RequestBody BookDto b){
-	   
-	   return new ResponseEntity<String>("Employee Saved ",HttpStatus.OK);
-	   
-   }
-	
+ 
    @PreAuthorize("hasRole('ROLE_ADMIN')")
    @GetMapping("/deleteuser")
    public ResponseEntity<String> deleteUser() {
